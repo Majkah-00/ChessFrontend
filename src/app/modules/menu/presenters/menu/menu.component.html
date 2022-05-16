@@ -1,0 +1,14 @@
+<div class="menu-box">
+  <img src="assets/chess.png">
+  <p>Chess</p>
+  <form>
+    <mat-form-field>
+      <mat-label>Nazwa użytkownika</mat-label>
+      <input [formControl]="creator" matInput/>
+    </mat-form-field>
+  </form>
+  <button (click)="onLocalGame()">Gra lokalna</button>
+  <button (click)="onPlayWithFriend()">Gra sieciowa</button>
+  <button (click)="onPlayWithComputer()">Player vs computer</button>
+  <button [routerLink]="['/games-list']">Dołącz do gry</button>
+</div>

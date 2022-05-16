@@ -1,0 +1,48 @@
+<div
+        id="board"
+        [style.width.px]="boardSize"
+        [style.height.px]="boardSize"
+        (click)="onMouseDown($event)"
+        #boardRef
+>
+    <div
+            class="single-piece" [innerHTML]="piece.constant.icon"
+            [style.transform]="'translate3d(' + piece.point.col * pieceSize + 'px, ' + piece.point.row * pieceSize + 'px,0px)'"
+            [style.max-height]="pieceSize + 'px'"
+            [style.font-size]="pieceSize * 0.8 + 'px'"
+            [style.width]="pieceSize + 'px'"
+            [style.height]="pieceSize + 'px'"
+            *ngFor="let piece of board.pieces; let i = index"
+    >
+    </div>
+    <div
+            class="board-row"
+            *ngFor="let row of board.board; let i = index"
+    >
+        <div
+                class="board-col"
+                [class.current-selection]="board.isXYInActiveMove(i,j)"
+                [class.king-check]="board.isKingChecked(board.getPieceByPoint(i,j))"
+                [class.possible-capture]="board.isXYInPossibleCaptures(i, j)"
+                [class.possible-point]="board.isXYInPossibleMoves(i, j)"
+                [style.background-color]="getTileBackgroundColor(i, j)"
+                *ngFor="let col of row; let j = index"
+        >
+          <span
+                  class="yCoord"
+                  [style.color]="(i % 2 === 0) ? '#BAA378' : '#61543DFF'"
+                  [style.font-size.px]="pieceSize / 4"
+                  *ngIf="j === 7"
+          >
+                    {{engineFacade.defaultYCoords[i]}}
+                </span>
+            <span
+                    class="xCoord"
+                    [style.color]="(j % 2 === 0) ? '#BAA378' : '#61543DFF'"
+                    [style.font-size.px]="pieceSize / 4"
+                    *ngIf="i === 7"
+            >
+              {{engineFacade.defaultXCoords[j]}}</span>
+        </div>
+    </div>
+</div>

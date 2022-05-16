@@ -1,0 +1,100 @@
+#board {
+  font-family: 'Courier New', serif;
+  position: relative;
+}
+
+.board-row {
+  display: block;
+  width: 100%;
+  height: 12.5%;
+  position: relative;
+}
+
+.board-col {
+  position: relative;
+  display: inline-block;
+  width: 12.5%;
+  vertical-align: top;
+  cursor: default;
+  height: 100%;
+}
+
+.piece {
+  height: 100%;
+  cursor: grab;
+  width: 100%;
+  user-select: none;
+  background-size: cover;
+  justify-content: center;
+  text-align: center;
+  color: black !important;
+  box-sizing: border-box;
+}
+
+.piece::after {
+  content: '\200b';
+  box-sizing: border-box;
+}
+
+.possible-point {
+  background: radial-gradient(#13262F 15%, transparent 20%);
+}
+
+.possible-point:hover,
+.possible-capture:hover {
+  opacity: 0.4;
+}
+
+.possible-capture {
+  background: radial-gradient(transparent 0%, transparent 80%,#13262F 80%);
+  opacity: 0.5;
+  box-sizing: border-box;  margin: 0;
+  padding: 0;
+}
+
+.current-selection {
+  background-color: #72620B !important;
+}
+
+.single-piece {
+  position: absolute;
+  z-index: 999;
+  justify-content: center;
+  text-align: center;
+  user-select: none;
+  color: black !important;
+  cursor: grab;
+  background-size: cover;
+}
+
+.single-piece::after {
+  content: '\200b';
+  box-sizing: border-box;
+}
+
+.king-check {
+  background: radial-gradient(
+                  ellipse at center,
+                  red 0%,
+                  #e70000 25%,
+                  rgba(169, 0, 0, 0) 89%,
+                  rgba(158, 0, 0, 0) 100%
+  );
+}
+
+.yCoord {
+  position: absolute;
+  user-select: none;
+  cursor: pointer;
+  right: 0.2em;
+  box-sizing: border-box;
+}
+
+.xCoord {
+  position: absolute;
+  user-select: none;
+  cursor: pointer;
+  left: 0.2em;
+  bottom: 0;
+  box-sizing: border-box;
+}

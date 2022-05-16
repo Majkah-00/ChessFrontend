@@ -1,0 +1,4 @@
+<div *ngFor="let game of games">
+    <p>{{ game.createdBy }}</p>
+    <button (click)="join(game.id)">Dołącz</button>
+</div>
