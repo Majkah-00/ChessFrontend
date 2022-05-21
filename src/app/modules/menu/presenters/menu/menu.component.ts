@@ -32,7 +32,6 @@ export class MenuComponent {
       this.websocketService.startConnection(); // połączenie do websocketa
 
       this.gameService.createGame(this.creator.value).subscribe(res => {
-        console.log(res)
         this.stateService.isYourTurn.next(true);
         this.router.navigate([`/game/${res.gameId}`])
 

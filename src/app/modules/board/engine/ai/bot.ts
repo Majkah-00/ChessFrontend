@@ -1,7 +1,6 @@
 import axios, { AxiosInstance } from 'axios';
 
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +13,7 @@ export class Bot {
   public playerPlaying: string;
   public playerlastmove;
 
-  constructor(private http: HttpClient) {
+  constructor() {
     this.instance = axios.create({
       baseURL: 'https://lichess.org',
       headers: {
@@ -34,7 +33,7 @@ export class Bot {
     await this.instance.post('/api/challenge/ai', body).then(response => {
       this.gameId = response.data.id;
       if (this.playerPlaying != 'white') {
-        setTimeout(this.getBotmove, 2000, this.instance, this.gameId, board);
+        setTimeout(this.getBotmove, 6000, this.instance, this.gameId, board);
       }
     });
   }
@@ -43,7 +42,7 @@ export class Bot {
     console.log('Player do ', move);
     await this.instance.post(`/api/board/game/${this.gameId}/move/${move}`)
       .then(() => {
-        setTimeout(this.getBotmove, 2000, this.instance, this.gameId, board, move);
+        setTimeout(this.getBotmove, 6000, this.instance, this.gameId, board, move);
       });
   }
 
@@ -51,29 +50,14 @@ export class Bot {
     await instance.get('/api/account/playing')
       .then(response => {
         const game = (response.data.nowPlaying.filter(element => element.gameId == gameId))[0];
-        console.log(game)
-        var botmove = game.lastMove;
-        switch (botmove) {
-          case 'e8a8':
-            botmove = 'e8c8';
-            break;
-          case 'e8h8':
-            botmove = 'e8g8';
-            break;
-          case 'e1a1':
-            botmove = 'e1c1';
-            break;
-          case 'e1h1':
-            botmove = 'e1g1';
+        let botmove = game.lastMove;
+        if (botmove != move) {
+          board.move(botmove);
+          console.log('Bot do ', botmove);
+          board.bot.playerlastmove = false;
+        } else {
+          this.getBotmove, 6000, instance, gameId, board, move;
         }
-        // if(botmove != move) { // case that lichess take longer to calculate next moove and we get our move as bot move
-        console.log(botmove)
-        board.move(botmove);
-        console.log('Bot do ', botmove);
-        board.bot.playerlastmove = false;
-        // } else {
-        //     setTimeout(this.getBotmove, 4000, instance, gameId, board, move);
-        // }
       });
   }
 
@@ -86,6 +70,4 @@ export class Bot {
         }
       });
   }
-
-
 }

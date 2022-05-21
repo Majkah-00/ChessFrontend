@@ -46,11 +46,11 @@ export class EngineFacade {
     );
 
     if (!this.stateService.gameId.value) {
-      if (this.selected) {
-        this.handleClickEvent(pointClicked);
+      if (this.selected) { //czy kliknelismy w jakas figure
+        this.handleClickEvent(pointClicked); //wykonanie ruchu
       } else {
         if (pieceClicked) {
-          this.onPieceClicked(pieceClicked, pointClicked);
+          this.onPieceClicked(pieceClicked, pointClicked); //wyznaczanie ruchow i bic
         }
       }
     } else {
@@ -146,27 +146,26 @@ export class EngineFacade {
     console.log(move)
     this.stateService.history.next([...this.stateService.history.value, move])
 
-    if (this.stateService.gameId.value) {
-      this.gameService.move(move.move).subscribe()
+    if (this.stateService.gameId.value) { //sprawdzamy czy jest to gra przez siec
+      this.gameService.move(move.move).subscribe() //request na be z ruchem
     }
 
 
     console.log(this.bot.playerlastmove)
-    if (this.bot.gameId != null && this.bot.playerlastmove === false) {
+    if (this.bot.gameId != null && this.bot.playerlastmove === false) { //ruch bota
       this.bot.playerlastmove = true;
-      console.log('here')
       this.bot.makeMoove(move.move, this);
     }
 
     toMovePiece.point = newPoint;
-    this.board.currentWhitePlayer = !this.board.currentWhitePlayer;
+    this.board.currentWhitePlayer = !this.board.currentWhitePlayer; //zmiana zawodnika
 
     if (!this.checkForPawnPromote(toMovePiece)) {
       this.afterMoveActions();
     }
   }
 
-  afterMoveActions() {
+  afterMoveActions() { //czy szach
     this.board.blackKingChecked = this.board.isKingInCheck(
       Color.BLACK,
       this.board.pieces
@@ -180,7 +179,7 @@ export class EngineFacade {
     this.moveDone = true;
   }
 
-  checkForPawnPromote(toPromotePiece: Piece): any {
+  checkForPawnPromote(toPromotePiece: Piece): any { //co by za plansze nie wylazlo
     if (!(toPromotePiece instanceof Pawn)) {
       return;
     }

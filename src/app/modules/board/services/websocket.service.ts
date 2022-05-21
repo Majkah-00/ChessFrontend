@@ -28,13 +28,14 @@ export class WebsocketService {
 
   public onPlayerJoin = () => {
     this.hubConnection.on('onJoin', (result) => {
+      // alert('Gracz dołączył! Zaczynamy')
       console.log(result)
     });
   };
 
   public onMove = () => {
     this.hubConnection.on('onMove', (result) => {
-      console.log(result)
+      console.log(result);
       if (result.player !== this.stateService.player.value) {
         this.stateService.isYourTurn.next(true);
       } else {
@@ -46,7 +47,6 @@ export class WebsocketService {
 
   public id = () => {
     this.hubConnection.invoke('GetConnectionId').then(res => {
-      console.log(res)
       this.stateService.connectionId.next(res)
       this.connectionId = res;
     }).catch((err) => {
